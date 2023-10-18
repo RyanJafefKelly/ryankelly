@@ -1,1 +1,19 @@
 /.quarto/
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Quarto build output
+_build/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment directories
+.env
+.venv/
