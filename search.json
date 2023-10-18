@@ -1,17 +1,17 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "resume/index.html",
+    "href": "resume/index.html",
+    "title": "resume",
     "section": "",
-    "text": "PhD"
+    "text": "rrr"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "ryankellysite",
+    "objectID": "publications/index.html",
+    "href": "publications/index.html",
+    "title": "publications",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+    "text": "sss"
   },
   {
     "objectID": "thoughts/index.html",
@@ -21,18 +21,11 @@
     "text": "sss\n\n\n\n\n\n\n\n\n  \n\n\n\n\nt1\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\nPost description\n\n\n\n\n\n\nMay 22, 2021\n\n\nFizz McPhee\n\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "software/index.html",
-    "href": "software/index.html",
-    "title": "software",
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
     "section": "",
-    "text": "ddd"
-  },
-  {
-    "objectID": "publications/index.html",
-    "href": "publications/index.html",
-    "title": "publications",
-    "section": "",
-    "text": "sss"
+    "text": "PhD"
   },
   {
     "objectID": "about/index.html",
@@ -49,10 +42,17 @@
     "text": "random text"
   },
   {
-    "objectID": "resume/index.html",
-    "href": "resume/index.html",
-    "title": "resume",
+    "objectID": "software/index.html",
+    "href": "software/index.html",
+    "title": "software",
     "section": "",
-    "text": "rrr"
+    "text": "ddd"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "ryankellysite",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
   }
 ]
