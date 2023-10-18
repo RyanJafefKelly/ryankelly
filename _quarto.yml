@@ -1,25 +1,44 @@
 project:
   type: website
 
+
 website:
   title: "ryankellysite"
+
+  favicon: assets/images/favicon.png
+
   navbar:
     background: dark
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
-      - publications.qmd
-      - software.qmd
-      - thoughts.qmd
+      # - about.qmd
+      - text: Publications
+        href: publications/index.qmd
+      - text: Software
+        href: software/index.qmd
+      - text: Thoughts
+        href: thoughts/index.qmd
     tools:
       - icon: twitter
         href: https://twitter.com/RP_Kelly98
+      - icon: github
+        href: https://github.com/RyanJafefKelly
+      - icon: linkedin
+        href: https://www.linkedin.com/in/ryan-kelly-aa2615117
+      - icon: journal-richtext
+        href: "https://scholar.google.com/citations?user=rFhsYGEAAAAJ&hl=en"
+      # - text: "{{< iconify academicons:google-scholar >}}"
+      #   href: "https://scholar.google.com/citations?user=rFhsYGEAAAAJ&hl=en"
+
 format:
   html:
-    theme: cosmo
-    css: styles.css
+    fontsize: 1.1em
+    theme: pulse
+    css:
+    - styles.css
     toc: true
 
-
+execute:
+  freeze: auto
 

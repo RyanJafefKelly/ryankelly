@@ -16,5 +16,23 @@
   },
   "resume.qmd": {
     "resume.html": "7db8438e"
+  },
+  "software/index.qmd": {
+    "index.html": "92f9afe8"
+  },
+  "publications/index.qmd": {
+    "index.html": "f99458fb"
+  },
+  "resume/index.qmd": {
+    "index.html": "7ff904ea"
+  },
+  "about/index.qmd": {
+    "index.html": "edc7ae9d"
+  },
+  "thoughts/posts/test_post/index.qmd": {
+    "index.html": "99e4bb0e"
+  },
+  "thoughts/index.qmd": {
+    "index.html": "ad53e788"
   }
 }

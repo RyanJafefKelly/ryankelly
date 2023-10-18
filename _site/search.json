@@ -1,10 +1,10 @@
 [
   {
-    "objectID": "software.html",
-    "href": "software.html",
-    "title": "Software",
+    "objectID": "thoughts/index.html",
+    "href": "thoughts/index.html",
+    "title": "Thoughts",
     "section": "",
-    "text": "…\nELFI:"
+    "text": "sss\n\n\n\n\n\n\n\n\n  \n\n\n\n\nt1\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\nPost description\n\n\n\n\n\n\nMay 22, 2021\n\n\nFizz McPhee\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -21,24 +21,31 @@
     "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
   },
   {
-    "objectID": "resume.html",
-    "href": "resume.html",
-    "title": "Resume",
+    "objectID": "resume/index.html",
+    "href": "resume/index.html",
+    "title": "resume",
     "section": "",
-    "text": "…"
+    "text": "rrr"
   },
   {
-    "objectID": "publications.html",
-    "href": "publications.html",
-    "title": "Publications",
+    "objectID": "publications/index.html",
+    "href": "publications/index.html",
+    "title": "publications",
     "section": "",
-    "text": "…"
+    "text": "sss"
   },
   {
-    "objectID": "thoughts.html",
-    "href": "thoughts.html",
-    "title": "Thoughts",
+    "objectID": "about/index.html",
+    "href": "about/index.html",
+    "title": "about",
     "section": "",
-    "text": "thoughts"
+    "text": "about"
+  },
+  {
+    "objectID": "software/index.html",
+    "href": "software/index.html",
+    "title": "software",
+    "section": "",
+    "text": "ddd"
   }
 ]
