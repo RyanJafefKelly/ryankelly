@@ -1,1 +1,1 @@
-Sitemap: https://ryanpkelly.com/sitemap.xml
+Sitemap: https://github.com/RyanJafefKelly/ryankelly/sitemap.xml
