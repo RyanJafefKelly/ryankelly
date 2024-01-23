@@ -3,16 +3,18 @@ project:
 
 
 website:
-  title: "ryankellysite"
+  title: "Ryan Kelly"
 
   favicon: assets/images/favicon.png
 
   navbar:
-    background: dark
+    background: white
     left:
-      - href: index.qmd
-        text: Home
+      # - href: index.qmd
+      #   text: Home
       # - about.qmd
+      - text: About
+        href: about/index.qmd
       - text: Publications
         href: publications/index.qmd
       - text: Software
@@ -34,7 +36,6 @@ website:
 format:
   html:
     fontsize: 1.1em
-    theme: pulse
     css:
     - styles.css
     toc: true

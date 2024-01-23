@@ -1,9 +1,10 @@
 ---
 layout: page
-title: publications
+title: PUBLICATIONS
 
 execute:
   freeze: auto
 
 ---
-sss
+
+**Ryan Kelly**, David Nott, David Frazier, David Warne, Chris Drovandi. *Misspecification-robust Sequential Neural Likelihood for Simulation-based Inference* arXiv preprint arXiv:2301.13368 (2023). Under review.

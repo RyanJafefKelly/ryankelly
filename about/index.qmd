@@ -1,10 +1,29 @@
 ---
-layout: page
-title: about
-
-execute:
-  freeze: auto
-
+title: "ABOUT"
 ---
 
-about
+<div style="display: flex; justify-content: center; align-items: flex-start; text-align: left;">
+
+<!-- Left Section for Text -->
+<div style="flex: 1; margin-right: 20px;">
+<p>
+I am a PhD student at the QUT Centre for Data Science (2022-2025 planned finish). My general area of research is on computational Bayesian statistics.
+</p>
+<p>
+My specific thesis focus is on addressing model misspecification for neural simulation-based inference methods.
+</p>
+<p>
+Other research interests include open-source software development, generative models, out-of-distribution generalisation, and probability theory.
+</p>
+<p>
+Feel free to contact me at r21.kelly@hdr.qut.edu.au or connect with me on <a href="https://github.com/RyanJafefKelly">GitHub</a>, <a href="https://twitter.com/RP_Kelly98">Twitter</a>, or <a href="https://www.linkedin.com/in/ryan-kelly-aa2615117/">LinkedIn</a>.
+</p>
+</div>
+
+<!-- Right Section for Image -->
+<div style="flex: 1; text-align: center;">
+<img src="../assets/images/textbooks.jpg" style="width: 100%; max-width: 400px; height: auto;">
+<p style="font-style: italic; color: grey;">My current favourite ten textbooks (missing BDA3)</p>
+</div>
+
+</div>

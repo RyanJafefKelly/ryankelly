@@ -1,16 +1,12 @@
 ---
 layout: page
-title: t1
+title: Currently thoughtless
 
 execute:
   freeze: auto
-description: "Post description"
-author: "Fizz McPhee"
-date: "5/22/2021"
-categories:
-  - news
-  - code
-  - analysis
+description: "..."
+author: "Ryan Kelly"
+date: "1/23/2024"
 
 ---
 

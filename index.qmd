@@ -1,7 +1,24 @@
 ---
-title: "ryankellysite"
+layout: page
+title: " "
+css: styles.css
+execute:
+  freeze: auto
 ---
 
-This is a Quarto website.
+<div style="display: flex; justify-content: center; min-height: 100vh; text-align: center;">
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+<!-- Left Section for Text -->
+<div style="flex: 1; text-align: left;">
+<h2 style="font-size: 80px; color:black;">RYAN PATRICK KELLY</h2>
+<!-- <h2 style="font-size: 80px; margin-top:-35px; color:black;">KELLY</h2> -->
+<h5>**Brisbane**, Queensland</h5>
+<h5>Bayesian Statistician | ML Researcher </h5>
+</div>
+
+<!-- Right Section for Image -->
+<div style="flex: 1;">
+<img src="assets/images/ryan_website_photo.jpg" style="width: 90%;">
+</div>
+
+</div>
