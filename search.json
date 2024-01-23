@@ -1,24 +1,24 @@
 [
   {
-    "objectID": "about/index.html",
-    "href": "about/index.html",
-    "title": "about",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Ryan Kelly",
     "section": "",
-    "text": "about"
+    "text": "RYAN PATRICK KELLY\n\n\n\nBrisbane, Queensland\n\n\nBayesian Statistician | ML Researcher"
   },
   {
-    "objectID": "resume/index.html",
-    "href": "resume/index.html",
-    "title": "resume",
+    "objectID": "thoughts/index.html",
+    "href": "thoughts/index.html",
+    "title": "Thoughts",
     "section": "",
-    "text": "rrr"
+    "text": "sss\n\n\n\n\n\n\n\n\n  \n\n\n\n\nCurrently thoughtless\n\n\n\n\n\n…\n\n\n\n\n\n\nJan 23, 2024\n\n\nRyan Kelly\n\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "thoughts/posts/test_post/index.html",
-    "href": "thoughts/posts/test_post/index.html",
-    "title": "t1",
+    "objectID": "publications/index.html",
+    "href": "publications/index.html",
+    "title": "PUBLICATIONS",
     "section": "",
-    "text": "random text"
+    "text": "Ryan Kelly, David Nott, David Frazier, David Warne, Chris Drovandi. Misspecification-robust Sequential Neural Likelihood for Simulation-based Inference arXiv preprint arXiv:2301.13368 (2023). Under review."
   },
   {
     "objectID": "about.html",
@@ -28,31 +28,31 @@
     "text": "PhD"
   },
   {
-    "objectID": "publications/index.html",
-    "href": "publications/index.html",
-    "title": "publications",
-    "section": "",
-    "text": "sss"
-  },
-  {
-    "objectID": "thoughts/index.html",
-    "href": "thoughts/index.html",
-    "title": "Thoughts",
-    "section": "",
-    "text": "sss\n\n\n\n\n\n\n\n\n  \n\n\n\n\nt1\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\nPost description\n\n\n\n\n\n\nMay 22, 2021\n\n\nFizz McPhee\n\n\n\n\n\n\nNo matching items"
-  },
-  {
     "objectID": "software/index.html",
     "href": "software/index.html",
-    "title": "software",
+    "title": "SOFTWARE",
     "section": "",
-    "text": "ddd"
+    "text": "rsnl package\nELFI contributor, implemented BSL methods in ELFI. See also my MPhil Thesis.\nsearchlogit developer. This is a package for discrete choice model choice (currently private)."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "ryankellysite",
+    "objectID": "resume/index.html",
+    "href": "resume/index.html",
+    "title": "resume",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+    "text": "rrr"
+  },
+  {
+    "objectID": "about/index.html",
+    "href": "about/index.html",
+    "title": "ABOUT",
+    "section": "",
+    "text": "I am a PhD student at the QUT Centre for Data Science (2022-2025 planned finish). My general area of research is on computational Bayesian statistics.\n\n\nMy specific thesis focus is on addressing model misspecification for neural simulation-based inference methods.\n\n\nOther research interests include open-source software development, generative models, out-of-distribution generalisation, and probability theory.\n\n\nFeel free to contact me at r21.kelly@hdr.qut.edu.au or connect with me on GitHub, Twitter, or LinkedIn.\n\n\n\n\n\n\nMy current favourite ten textbooks (missing BDA3)"
+  },
+  {
+    "objectID": "thoughts/posts/test_post/index.html",
+    "href": "thoughts/posts/test_post/index.html",
+    "title": "Currently thoughtless",
+    "section": "",
+    "text": "random text"
   }
 ]
