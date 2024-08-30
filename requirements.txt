@@ -5,3 +5,4 @@ jax
 matplotlib
 numpyro
 elfi
+arviz
