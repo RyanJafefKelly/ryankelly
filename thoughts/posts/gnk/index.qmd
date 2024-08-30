@@ -1,0 +1,375 @@
+---
+layout: page
+title: "Examples in simulation-based inference: the g-and-k model"
+execute:
+  freeze: auto
+description: "Exact samples of the g-and-k partial posterior."
+author: "Ryan Kelly"
+date: "08/30/2024"
+---
+
+
+**What is the g-and-k model?**
+The g-and-k model is often represented using its quantile function, making it a popular choice in simulation-based inference. The reasoning behind this is straightforward: simulating pseudo-data from the quantile function is trivial, but defining the model in terms of its probability density function is more challenging. For simplicity, we'll focus on the univariate g-and-k model. This model is parameterised by four parameters: A (location), B (scale), g (skewness), k (kurtosis).
+
+
+**Goal of this notebook**
+The aim is to obtain samples from the partial posterior of the g-and-k model. So the goal of simulation-based inference (SBI) methods more broadly is to approximate the actual partial posterior. Note: partial posterior here, as we are mapping the data down to a lower-dimension set of summary statistics. By obtaining exact samples, we can evaluate how well an approximate method performs, using measures such as statistical distance. To my knowledge, this is the first instance of MCMC sampling being applied to the partial posterior of the g-and-k model (in the few instances where exact MCMC is done, is for the full posterior).
+
+```{python}
+import jax.numpy as jnp
+import jax.random as random
+from jax import lax
+from jax.scipy.stats import norm
+import matplotlib.pyplot as plt
+```
+
+This small line is the the actual "DGP" we care about, what follows in this notebook is inference machinery for us to our posteriors.
+
+```{python}
+def gnk(z, A, B, g, k, c=0.8):
+    """Quantile function for the g-and-k distribution."""
+    return A + B * (1 + c * jnp.tanh(g * z / 2)) * (1 + z**2)**k * z
+```
+
+As the summary statistics, we will take the octiles as in [Allingham et al. (2009)](https://link.springer.com/article/10.1007/s11222-008-9083-x). Obligatory mention that in practice, might be of interest to use the robust summaries of [Drovandi et al. (2011) ](https://www.sciencedirect.com/science/article/abs/pii/S0167947311001125).
+
+
+```{python}
+def ss_octile(y):
+    """Calculate octiles of the input data."""
+    octiles = jnp.linspace(12.5, 87.5, 7)
+    return jnp.percentile(y, octiles, axis=-1)
+```
+
+Okay let's get some data to run inference on.
+
+```{python}
+true_params = jnp.array([3.0, 1.0, 2.0, 0.5])
+key = random.PRNGKey(0)
+num_obs = 1_000
+z = random.normal(key, shape=(num_obs,))
+x_full = gnk(z, *true_params)
+x_obs = ss_octile(x_full)
+x_obs
+```
+
+```{python}
+plt.hist(x_full, bins=30);
+plt.plot(x_obs.ravel(), jnp.zeros(7), 'rx');
+```
+
+### SMC ABC
+
+The classic way. Reliable - but requires a tonne of simulations. Inference will be done using the Engine for likelihood-free inference (ELFI).
+
+```{python}
+import elfi
+from elfi.examples.gnk import get_model
+import numpy as np
+import matplotlib.pyplot as plt
+from functools import partial
+```
+
+ASIDE: Mixing up jax.numpy as np - following two functions same thing, just to get things to work with ELFI.
+
+```{python}
+def elfi_gnk(A, B, g, k, c=0.8, n_obs=100, batch_size=1, random_state=None):
+    """Quantile function for the g-and-k distribution."""
+    A = np.asanyarray(A).reshape((-1, 1))
+    B = np.asanyarray(B).reshape((-1, 1))
+    g = np.asanyarray(g).reshape((-1, 1))
+    k = np.asanyarray(k).reshape((-1, 1))
+    random_state = random_state or np.random
+    z = random_state.normal(size=(batch_size, n_obs))
+    res = A + B * (1 + c * np.tanh(g * z / 2)) * (1 + z**2)**k * z
+    return res
+
+def elfi_ss_octile(y):
+    """Calculate octiles of the input data."""
+    octiles = np.linspace(12.5, 87.5, 7)
+    ss_octiles = np.percentile(y, octiles, axis=-1)
+    return np.atleast_2d(ss_octiles).T
+```
+
+To run inference using the ELFI package, we define an ELFI model. For a comprehensive introduction to ELFI, refer to the official tutorial.
+
+```{python}
+m = elfi.new_model()
+
+A = elfi.Prior('uniform', 0, 10, model=m, name='A')
+B = elfi.Prior('uniform', 0, 10, model=m, name='B')
+g = elfi.Prior('uniform', 0, 10, model=m, name='g')
+k = elfi.Prior('uniform', 0, 10, model=m, name='k')
+
+elfi_gnk = partial(elfi_gnk, n_obs=len(x_full))
+
+GNK = elfi.Simulator(elfi_gnk, A, B, g, k, observed=np.atleast_2d(x_full), model=m, name='GNK')
+ss_octiles = elfi.Summary(elfi_ss_octile, GNK, model=m, name='ss_octile')
+d = elfi.Distance('euclidean', ss_octiles, model=m, name='d')
+```
+
+Note that this process is time-consuming and ideally should be run for a longer duration to further reduce the threshold. The primary adjustments to consider are increasing the number of iterations by raising max_iter, as well as fine-tuning q_threshold and num_samples.
+
+```{python}
+seed = 1
+np.random.seed(seed)
+max_iter = 5
+adaptive_smc = elfi.AdaptiveThresholdSMC(d, batch_size=500, seed=seed+1, q_threshold=0.99)
+adaptive_smc_samples = adaptive_smc.sample(4_000, max_iter=max_iter)
+```
+
+```{python}
+print(adaptive_smc_samples)
+```
+
+### BSL
+
+In Bayesian Synthetic Likelihood (BSL), the synthetic likelihood is assumed to follow a multivariate normal distribution, using the sample mean and sample covariance of the data. This approach is particularly fitting here, as we expect the summary statistics to be approximately normal.
+
+For a proper introduction to BSL in ELFI, refer to [this notebook](https://github.com/elfi-dev/notebooks/blob/master/bsl.ipynb).
+
+The initial step is to determine the number of simulations required at each MCMC iteration for estimating the synthetic likelihood (SL). The general rule for optimal MCMC mixing is to aim for the standard deviation of the log SL estimates to fall between 1 and 2. A quick check will help identify the best number of simulations needed for this purpose (surprisingly, only a few simulations may be necessary in this case).
+
+```{python}
+from elfi.methods.bsl import pre_sample_methods, pdf_methods
+
+seed = 1
+np.random.seed(seed)
+feature_names = 'ss_octile'
+likelihood = pdf_methods.standard_likelihood()
+params = {'A':3.0, 'B': 1.0, 'g': 2.0, 'k': 0.5}
+nsim = [20, 50, 100, 250]
+std_value = pre_sample_methods.log_SL_stdev(m, params, nsim, feature_names, likelihood=likelihood, M=100, seed=seed)
+std_value
+```
+
+Check normality of summary statistics (conditioned on model parameters). Seems to be a reasonable fit here.
+
+```{python}
+nsim = 10_000
+pre_sample_methods.plot_features(m, params, nsim, feature_names, seed=seed)
+```
+
+One admittedly inconvenient aspect of standard BSL is the need to specify the covariance of the random walk. This is typically done through a pilot run, such as SMC ABC. However, in this case, we are taking a slightly unconventional approach by:
+
+Reducing the covariance: Given that the SMC ABC run was relatively short, the resulting large variance in the posterior samples could lead to poor MCMC BSL mixing. By making the covariance smaller, we aim to mitigate this issue.
+
+Starting at the true parameters with no burn-in: To further improve mixing, we initialise the MCMC chain at the true parameter values and skip the burn-in phase.
+
+```{python}
+est_post_cov = 0.1*np.cov(adaptive_smc_samples.samples_array.T)
+```
+
+```{python}
+nsim_round = 20
+standard_bsl = elfi.BSL(m, nsim_round, feature_names=feature_names, likelihood=likelihood, seed=seed)
+mcmc_iterations = 4_000  # sample size
+params0 = [3.0, 1.0, 2.0, 0.5]
+bsl_res = standard_bsl.sample(mcmc_iterations, est_post_cov, params0=params0)
+```
+
+```{python}
+print(bsl_res)
+```
+
+### Exact g-and-k sampling
+
+To reiterate, in a typical SBI scenario, we aim to approximate the posterior distribution. But how do we verify the accuracy of our approximation? Ideally, we compare it against exact samples.
+
+Given that the octile summaries are order statistics, we can leverage the result that, for large samples, order statistics are asymptotically normal (see [Order Statistic on Wikipedia](https://en.wikipedia.org/wiki/Order_statistic#Large_sample_sizes)). It's worth noting that we also made—and verified—this normality assumption for BSL. This is the one assumption that prevents our method from being truly "exact" sampling, as with a finite number of observations, the distribution isn't perfectly Gaussian, though it's a close approximation. The mean of these statistics is straightforward to compute—it's simply the quantile function. The variance, however, is more complex as it requires the PDF. Luckily, this is possible for the univariate g-and-k.
+
+A special mention to the [gk package](https://cran.r-project.org/web/packages/gk/index.html), which heavily inspired the following Python implementation.
+
+While the finer details are not so important here, the key takeaway is that we now have a method to calculate the PDF for our univariate g-and-k model, which we will then use for the variance of our order statistic summaries.
+
+Note, we could use the pdf directly if we are interested in the full posterior, but our target here is the partial posterior.
+
+```{python}
+
+def gnk_density(x, A, B, g, k, c=0.8):
+    """Calculate the density of the g-and-k distribution."""
+    z = pgk(x, A, B, g, k, c, zscale=True)
+    return norm.pdf(z) / gnk_deriv(z, A, B, g, k, c)
+
+
+def gnk_deriv(z, A, B, g, k, c):
+    """Calculate the derivative of the g-and-k quantile function."""
+    z_squared = z**2
+    term1 = (1 + z_squared)**k
+    term2 = 1 + c * jnp.tanh(g * z / 2)
+    term3 = (1 + (2 * k + 1) * z_squared) / (1 + z_squared)
+    term4 = c * g * z / (2 * jnp.cosh(g * z / 2)**2)
+
+    term2 = jnp.where(g == 0, 1.0, term2)
+    term4 = jnp.where(g == 0, 0.0, term4)
+
+    term3 = jnp.where(jnp.isinf(z_squared), 2 * k + 1, term3)
+    term4 = jnp.where(jnp.isinf(z), 0.0, term4)
+
+    return B * term1 * (term2 * term3 + term4)
+
+
+def pgk(q, A, B, g, k, c=0.8, zscale=False):
+    """Inverse of the g-and-k quantile function."""
+    def toroot(p):
+        return z2gk(p, A, B, g, k, c) - q
+
+    z = bisection_method(toroot, -5, 5, tol=1e-5, max_iter=100)
+    return z if zscale else norm.cdf(z)
+
+
+def z2gk(p, A, B, g, k, c=0.8):
+    """G-and-k quantile function."""
+    return A + B * ((1 + c * jnp.tanh(g * p / 2)) * ((1 + p**2)**k) * p)
+
+
+def bisection_method(f, a, b, tol=1e-5, max_iter=100):
+    fa = f(a)
+
+    def body_fun(state):
+        a, b, fa, _ = state
+        c = (a + b) / 2
+        fc = f(c)
+        con_zero = jnp.isclose(fc, 0, atol=tol)
+        con_tol = (b - a) / 2 < tol
+        done = jnp.logical_or(con_zero, con_tol)
+
+        update = jnp.sign(fc) * jnp.sign(fa) > 0
+        a_new = jnp.where(update, c, a)
+        fa_new = jnp.where(update, fc, fa)
+        b_new = jnp.where(update, b, c)
+
+        a_final = jnp.where(done, a, a_new)
+        b_final = jnp.where(done, b, b_new)
+        fa_final = jnp.where(done, fa, fa_new)
+
+        return a_final, b_final, fa_final, done
+
+    init_state = (a, b, fa, False)
+    final_state = lax.while_loop(
+        lambda state: jnp.logical_not(state[3]),
+        body_fun,
+        init_state
+    )
+
+    return (final_state[0] + final_state[1]) / 2
+```
+
+Order statistics are asymptotically normal.
+
+
+```{python}
+def sample_var_fn(p, A, B, g, k, n_obs):
+    """Calculate the variance of an order statistic."""
+    numerator = p * (1 - p)
+    gnk_dens = gnk_density(gnk(norm.ppf(p), A, B, g, k), A, B, g, k)
+    denominator = n_obs * gnk_dens ** 2
+    res = numerator/denominator
+    return res
+```
+
+Pieces now in place to get posterior samples of our partial posterior.
+
+
+```{python}
+import numpyro
+import numpyro.distributions as dist
+from numpyro.infer import MCMC, NUTS
+from scipy.special import logit
+
+def gnk_model(obs, n_obs):
+    """Model for the g-and-k distribution using Numpyro."""
+    A = numpyro.sample('A', dist.Uniform(0, 10))
+    B = numpyro.sample('B', dist.Uniform(0, 10))
+    g = numpyro.sample('g', dist.Uniform(0, 10))
+    k = numpyro.sample('k', dist.Uniform(0, 10))
+
+    octiles = jnp.linspace(12.5, 87.5, 7) / 100
+    norm_quantiles = norm.ppf(octiles)
+    expected_summaries = gnk(norm_quantiles, A, B, g, k)
+
+    y_variance = [sample_var_fn(p, A, B, g, k, n_obs) for p in octiles]
+    for i in range(7):
+        numpyro.sample(f'y_{i}', dist.Normal(expected_summaries[i],
+                                             jnp.sqrt(y_variance[i])),
+                       obs=obs[i])
+
+kernel = NUTS(gnk_model)
+
+thinning = 1
+num_chains = 4
+num_warmup = 4_000
+num_samples = 4_000
+
+mcmc = MCMC(kernel,
+            num_warmup=num_warmup,
+            num_samples=num_samples*thinning // num_chains,
+            thinning=thinning,
+            num_chains=num_chains,
+            )
+
+# NOTE: need to transform initial parameters to unbounded space
+def init_param_to_unbounded(value, num_chains, subkey):
+    param_arr = jnp.repeat(logit(jnp.array([value])/10), num_chains)
+    noise = random.normal(subkey, (num_chains,)) * 0.05
+
+    return param_arr + noise
+
+key, *subkeys = random.split(key, 5)
+
+init_params = {
+    'A': init_param_to_unbounded(3.0, num_chains, subkeys[0]),
+    'B': init_param_to_unbounded(1.0, num_chains, subkeys[1]),
+    'g': init_param_to_unbounded(2.0, num_chains, subkeys[2]),
+    'k': init_param_to_unbounded(0.5, num_chains, subkeys[3])
+}
+
+mcmc.run(rng_key=key,
+         init_params=init_params,
+         obs=x_obs,
+         n_obs=num_obs)
+mcmc.print_summary()
+```
+
+The MCMC summary seems to match what we would expect - true parameters in 90% credible intervals, decent n_eff and r_hat, no divergences. But can also do some quick diagnostic plots as a sanity check.
+
+```{python}
+import arviz as az
+
+inference_data = az.from_numpyro(mcmc)
+az.plot_trace(inference_data, compact=False);
+plt.tight_layout()
+```
+
+```{python}
+az.plot_ess(inference_data, kind="evolution");
+```
+
+```{python}
+az.plot_autocorr(inference_data, combined=True, max_lag=50);
+```
+
+```{python}
+import matplotlib.pyplot as plt
+
+exact_samples = mcmc.get_samples()
+smc_abc_samples = adaptive_smc_samples.samples
+bsl_samples = bsl_res.samples
+
+param_names = ['A', 'B', 'g', 'k']
+
+for i, param in enumerate(param_names):
+    _, bins, _ = plt.hist(smc_abc_samples[param], bins=30, alpha=0.5, label='SMC-ABC')
+    plt.hist(bsl_samples[param], bins=bins, alpha=0.5, label='BSL')
+    plt.hist(exact_samples[param], bins=bins, alpha=0.5, label='Exact')
+    plt.xlabel(param)
+    plt.ylabel('Frequency')
+    plt.legend()
+    plt.show()
+```
+
+Note: The SMC-ABC posterior remains quite wide, particularly for the 'g' parameter. This could be resolved by just running SMC-ABC for more rounds, with the goal of further reducing the threshold to achieve a tighter posterior distribution.
+
+We have demonstrated that it's possible to 'exactly' sample the partial posterior for the univariate g-and-k model. On a broader note, I'm interested in understanding when SBI approaches are most effective compared to exact inference methods, particularly given the advancements in modern probabilistic programming languages. The g-and-k model remains a compelling pedagogical example. It's valuable to have examples where exact samples are attainable to verify SBI methods and assess their performance. In practice, deriving a PDF for certain applications may be too analytically or computationally challenging, which is why having confidence in our SBI approaches is crucial. For instance, while we focused on the univariate g-and-k here, the bivariate g-and-k model is also of interest (see [Drovandi et al. (2011)](https://www.sciencedirect.com/science/article/abs/pii/S0167947311001125)), and to my knowledge, there is no readily available PDF for this case. Personally, I would much prefer writing a short simulation code and applying SBI than attempting to derive an exact approach - especially if we want to use summaries where we may not be able to rely on asymptotic normality.
+

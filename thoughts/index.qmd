@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Thoughts
+title: THOUGHTS
 
 listing:
   contents: posts
@@ -17,4 +17,3 @@ execute:
   freeze: auto
 
 ---
-sss
