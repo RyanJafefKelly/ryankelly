@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.ryanpkelly.com/index.html</loc>
-    <lastmod>2024-01-23T11:47:38.563Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.ryanpkelly.com/thoughts/index.html</loc>
-    <lastmod>2024-01-23T11:47:38.007Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.ryanpkelly.com/publications/index.html</loc>
-    <lastmod>2024-01-23T11:47:37.435Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.ryanpkelly.com/about.html</loc>
-    <lastmod>2024-01-23T11:47:36.955Z</lastmod>
-  </url>
-  <url>
     <loc>https://www.ryanpkelly.com/software/index.html</loc>
-    <lastmod>2024-01-23T11:47:36.411Z</lastmod>
+    <lastmod>2024-08-30T06:03:32.439Z</lastmod>
   </url>
   <url>
     <loc>https://www.ryanpkelly.com/resume/index.html</loc>
-    <lastmod>2024-01-23T11:47:37.191Z</lastmod>
+    <lastmod>2024-08-30T06:03:32.439Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.ryanpkelly.com/thoughts/index.html</loc>
+    <lastmod>2024-08-30T06:03:32.439Z</lastmod>
   </url>
   <url>
     <loc>https://www.ryanpkelly.com/about/index.html</loc>
-    <lastmod>2024-01-23T11:47:37.691Z</lastmod>
+    <lastmod>2024-08-30T06:03:32.411Z</lastmod>
   </url>
   <url>
-    <loc>https://www.ryanpkelly.com/thoughts/posts/test_post/index.html</loc>
-    <lastmod>2024-01-23T11:47:38.263Z</lastmod>
+    <loc>https://www.ryanpkelly.com/about.html</loc>
+    <lastmod>2024-08-30T06:03:32.411Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.ryanpkelly.com/publications/index.html</loc>
+    <lastmod>2024-08-30T06:03:32.439Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.ryanpkelly.com/thoughts/posts/gnk/index.html</loc>
+    <lastmod>2024-08-30T06:03:32.439Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.ryanpkelly.com/index.html</loc>
+    <lastmod>2024-08-30T06:03:32.439Z</lastmod>
   </url>
 </urlset>
