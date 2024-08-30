@@ -33,20 +33,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Render and Publish
+      - name: Render with Execution
         if: steps.file-check.outputs.notebook == 'true'
-        uses: quarto-dev/quarto-actions/publish@v2
-        with:
-          target: gh-pages
-          publish: true  # Ensure to enable publishing if the notebook or data has changed
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: quarto render --execute
 
       - name: Render without Execution
         if: steps.file-check.outputs.notebook != 'true'
+        run: quarto render --no-execute
+
+      - name: Publish to GitHub Pages
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
-          execute: false  # This will render without executing the notebooks
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
