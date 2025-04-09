@@ -6,6 +6,8 @@ body {
 }
 
 /* Navbar text color */
-.navbar a, .navbar a:visited .menu-text{
-    color: black; /* Change this to the desired shade of black */
+.navbar a,
+.navbar a:visited,
+.navbar .menu-text {
+    color: black;
 }

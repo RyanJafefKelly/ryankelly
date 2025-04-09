@@ -2,6 +2,7 @@
   {
     "listing": "/thoughts/index.html",
     "items": [
+      "/thoughts/posts/test/index.html",
       "/thoughts/posts/gnk/index.html"
     ]
   }

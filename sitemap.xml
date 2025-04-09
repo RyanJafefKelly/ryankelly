@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.ryanpkelly.com/thoughts/posts/gnk/index.html</loc>
-    <lastmod>2025-04-09T11:21:51.765Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.ryanpkelly.com/software/index.html</loc>
-    <lastmod>2025-04-09T11:21:51.765Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.ryanpkelly.com/about.html</loc>
-    <lastmod>2025-04-09T11:21:51.739Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.ryanpkelly.com/index.html</loc>
-    <lastmod>2025-04-09T11:21:51.765Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.ryanpkelly.com/publications/index.html</loc>
-    <lastmod>2025-04-09T11:21:51.765Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.ryanpkelly.com/about/index.html</loc>
-    <lastmod>2025-04-09T11:21:51.739Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.ryanpkelly.com/resume/index.html</loc>
-    <lastmod>2025-04-09T11:21:51.765Z</lastmod>
+    <loc>https://www.ryanpkelly.com/thoughts/posts/test/index.html</loc>
+    <lastmod>2025-04-09T11:45:24.514Z</lastmod>
   </url>
   <url>
     <loc>https://www.ryanpkelly.com/thoughts/index.html</loc>
-    <lastmod>2025-04-09T11:21:51.765Z</lastmod>
+    <lastmod>2025-04-09T11:45:24.514Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.ryanpkelly.com/resume/index.html</loc>
+    <lastmod>2025-04-09T11:45:24.514Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.ryanpkelly.com/about/index.html</loc>
+    <lastmod>2025-04-09T11:45:24.489Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.ryanpkelly.com/publications/index.html</loc>
+    <lastmod>2025-04-09T11:45:24.514Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.ryanpkelly.com/index.html</loc>
+    <lastmod>2025-04-09T11:45:24.514Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.ryanpkelly.com/about.html</loc>
+    <lastmod>2025-04-09T11:45:24.488Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.ryanpkelly.com/software/index.html</loc>
+    <lastmod>2025-04-09T11:45:24.514Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.ryanpkelly.com/thoughts/posts/gnk/index.html</loc>
+    <lastmod>2025-04-09T11:45:24.514Z</lastmod>
   </url>
 </urlset>
