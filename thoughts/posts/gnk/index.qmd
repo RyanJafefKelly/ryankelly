@@ -2,7 +2,7 @@
 layout: page
 title: "Examples in simulation-based inference: the g-and-k model"
 execute:
-  freeze: auto
+  freeze: true
 description: "Exact samples of the g-and-k partial posterior."
 author: "Ryan Kelly"
 date: "08/30/2024"

@@ -17,3 +17,6 @@ dist/
 # Environment directories
 .env
 .venv/
+.quarto/
+_site/
+.DS_Store
